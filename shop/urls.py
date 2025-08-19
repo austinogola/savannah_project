@@ -33,4 +33,12 @@ urlpatterns = [
     path('orders/<int:pk>/', views.OrderDetailView.as_view(), name='order-detail'),
     path('orders/create/', views.create_order, name='create-order'),
      path('oidc/', include('mozilla_django_oidc.urls')),
+
+         path("collect-phone/", views.collect_phone, name="collect_phone"),
+
+          path('logout/', views.logout_view, name='logout'),
+
+          path("set-usertype/", views.set_usertype, name="set_usertype"),
+
+     
 ]

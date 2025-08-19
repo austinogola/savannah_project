@@ -48,12 +48,15 @@ INSTALLED_APPS = [
     'shop',
 ]
 
+# AUTHENTICATION_BACKENDS = (
+#     "mozilla_django_oidc.auth.OIDCAuthenticationBackend",
+#     "django.contrib.auth.backends.ModelBackend",  # keep default
+#     "shop.auth.MyOIDCBackend", 
+# )
 AUTHENTICATION_BACKENDS = (
-    "mozilla_django_oidc.auth.OIDCAuthenticationBackend",
-    "django.contrib.auth.backends.ModelBackend",  # keep default
-    "shop.auth_backends.CustomOIDCBackend", 
+    "shop.auth.MyOIDCBackend",
+    "django.contrib.auth.backends.ModelBackend",
 )
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -157,5 +160,6 @@ OIDC_OP_TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token"
 OIDC_OP_USER_ENDPOINT = "https://openidconnect.googleapis.com/v1/userinfo"
 OIDC_OP_JWKS_ENDPOINT = "https://www.googleapis.com/oauth2/v3/certs" 
 OIDC_RP_SIGN_ALGO = "RS256"
-LOGIN_REDIRECT_URL = "/shop/dashboard/"   # after login
+LOGIN_REDIRECT_URL = "/shop/collect-phone/"   # after login
 LOGOUT_REDIRECT_URL = "/shop/"           # after logout
+OIDC_RP_SCOPES = 'openid profile email'

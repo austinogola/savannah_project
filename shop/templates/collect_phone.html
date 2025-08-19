@@ -1,0 +1,56 @@
+<!-- collect_phone.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Complete Your Profile</title>
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background: #f8f9fa;
+        }
+        .phone-box {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        input[type="text"], button {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-box">
+        <h2>Almost done!</h2>
+        <p>Please provide your phone number:</p>
+       <form method="post">
+            {% csrf_token %}
+            <label>Country Code:</label>
+            {{ form.country_code }}
+            <br>
+            <label>Phone Number:</label>
+            {{ form.phone }}
+            <br>
+            <button type="submit">Save & Continue</button>
+        </form>
+    </div>
+</body>
+</html>

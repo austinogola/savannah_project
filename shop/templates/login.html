@@ -18,6 +18,14 @@
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             text-align: center;
+            width: 300px;
+        }
+        select, input {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
         }
         a.login-btn {
             display: inline-block;
@@ -30,15 +38,80 @@
         a.login-btn:hover {
             background: #0056b3;
         }
+        #passphrase-container {
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div class="login-box">
         <h2>Welcome</h2>
         <p>Sign in to continue</p>
-        <a class="login-btn" href="{% url 'oidc_authentication_init' %}">
+
+        <label for="user-type">Select User Type:</label>
+        <select id="user-type">
+            <option value="normal" selected>Normal</option>
+            <option value="admin">Admin</option>
+        </select>
+
+        <div id="passphrase-container">
+            <input type="password" id="admin-passphrase" placeholder="Enter admin passphrase">
+            <button id="verify-passphrase">Verify</button>
+        </div>
+
+        <a class="login-btn" href="{% url 'oidc_authentication_init' %}" id="login-btn">
             Login with OpenID Connect
         </a>
     </div>
+
+    <script>
+        const userType = document.getElementById('user-type');
+        const passphraseContainer = document.getElementById('passphrase-container');
+        const verifyBtn = document.getElementById('verify-passphrase');
+        let originalValue = 'normal';
+        let password='abcdef'
+        const loginBtn = document.getElementById('login-btn');
+
+        userType.addEventListener('change', () => {
+            console.log(userType.value)
+             if (userType.value === 'admin') {
+                let passphrase=prompt('Enter admin passphrase')
+
+                if(passphrase==password){
+                    alert('Successfull. You can proceed to creating an admin')
+                     userType.value='admin'
+                }else{
+                    alert('Wrong ADMIN passphrase. You are creating a normal user')
+                    userType.value='normal'
+                }
+                // passphraseContainer.style.display = 'block';
+                // // lock the dropdown temporarily
+                // userType.value = originalValue;
+            }
+
+            
+        })
+
+
+        loginBtn.addEventListener('click', function(event){
+                event.preventDefault();
+
+                console.log('loginBTN CLICKED', userType.value),
+
+                fetch("{% url 'set_usertype' %}", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": "{{ csrf_token }}",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ usertype: userType.value })
+                }).then((res) => {
+                    console.log(res)
+                    window.location.href = loginBtn.href;  // redirect to OIDC
+                });
+            });
+
+        
+    </script>
 </body>
 </html>

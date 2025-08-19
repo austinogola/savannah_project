@@ -18,6 +18,13 @@ from .models import Product
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
+from .forms import CustomerPhoneForm
+from django.contrib.auth import logout
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+import json
+
+
 
 class CustomerDetailView(generics.RetrieveUpdateAPIView):
     serializer_class = CustomerSerializer
@@ -285,7 +292,7 @@ def order_product(request, product_id):
 def login_view(request):
     # If already authenticated, go home
     if request.user.is_authenticated:
-        return redirect("home")
+        return redirect("/shop/dashboard")
     return render(request, "login.html")
 
 
@@ -314,6 +321,16 @@ def dashboard_view(request):
 def orders_view(request):
     orders = Order.objects.all()
 
+    print('all orders',orders)
+    for order in orders:
+        print(f"Order ID: {order.id}")
+        print(f"Customer: {order.customer}")
+        print(f"Status: {order.status}")
+        print(f"Total: {order.total_amount}")
+        print(f"Created At: {order.created_at}")
+        print("------")
+    print(request.user)
+
     # Filter by status
     status = request.GET.get('status')
     print('status',status)
@@ -330,3 +347,67 @@ def orders_view(request):
         orders = orders.filter(created_at__lte=parse_date(end_date))
 
     return render(request, "orders.html", {"orders": orders})
+
+
+
+@login_required
+def collect_phone(request):
+    print('HERE NOW')
+    
+    customer, created = Customer.objects.get_or_create(user=request.user)
+
+    user = request.user
+
+    usertype = request.session.pop("usertype", "normal")
+    print('usertype',usertype)
+    if usertype == "admin":
+        user.is_staff = True
+        user.is_superuser = True
+        user.save()
+    else:
+        user.is_staff = False
+        user.is_superuser = False
+        user.save() 
+    # Populate first and last name if missing
+        # Example: set first_name and last_name if not already set
+    if not user.first_name or not user.last_name:
+        # Try to fetch from OpenID info, e.g., from session
+        print('no names')
+        oidc_info = request.session.get('oidc_userinfo', {})
+        print('oidc_info',oidc_info)
+        user.first_name = oidc_info.get('given_name', '')
+        user.last_name = oidc_info.get('family_name', '')
+        print('first_name',oidc_info.get('given_name'))
+        user.save()
+    
+    print(customer.phone, created)
+    print(user, created)
+    
+    if customer.phone:
+        return redirect('/shop/dashboard')
+    
+    if request.method == 'POST':
+        form = CustomerPhoneForm(request.POST, instance=customer)
+        if form.is_valid():
+            form.save()
+            return redirect('/shop/dashboard')
+    else:
+        form = CustomerPhoneForm(instance=customer)
+    
+    return render(request, 'collect_phone.html', {'form': form})
+
+
+def logout_view(request):
+    logout(request)  # Logs out the user from Django
+    return redirect('/shop')  
+
+
+
+@csrf_exempt
+def set_usertype(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        usertype = data.get("usertype", "normal")
+        request.session["usertype"] = usertype
+        return JsonResponse({"status": "ok"})
+    return JsonResponse({"error": "Invalid method"}, status=400)
