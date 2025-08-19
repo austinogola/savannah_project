@@ -1,0 +1,6 @@
+Django
+djangorestframework
+django-mptt
+mozilla-django-oidc
+python-dotenv
+psycopg2-binary

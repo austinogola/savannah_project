@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Welcome to your Dashboard, {{ user.username }} 👋</h2>
+
+    <div class="row mt-4">
+        <!-- Recent Orders -->
+        <div class="col-md-6">
+            <h4>Recent Orders</h4>
+            {% if recent_orders %}
+                <ul class="list-group">
+                    {% for order in recent_orders %}
+                        <li class="list-group-item">
+                            Order #{{ order.id }} - {{ order.status }} - {{ order.created_at|date:"M d, Y" }}
+                        </li>
+                    {% endfor %}
+                </ul>
+                <a href="{% url 'orders-list' %}" class="btn btn-primary btn-sm mt-2">View All Orders</a>
+            {% else %}
+                <p>No recent orders.</p>
+            {% endif %}
+        </div>
+
+        <!-- Products -->
+        <div class="col-md-6">
+            <h4>Products</h4>
+            {% if products %}
+                <ul class="list-group">
+                    {% for product in products %}
+                        <li class="list-group-item">
+                            {{ product.name }} - {{ product.price }}
+                        </li>
+                    {% endfor %}
+                </ul>
+                <a href="{% url 'products-list' %}" class="btn btn-success btn-sm mt-2">View All Products</a>
+            {% else %}
+                <p>No products available.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}My Orders{% endblock %}
+
+{% block content %}
+<h2>My Orders</h2>
+<form method="get" class="row g-3 mb-4">
+  <!-- Status filter -->
+  <!-- <div class="col-md-3">
+        <label>Status</label>
+        <select name="category" class="form-select">
+            <option value="">All</option>
+           <option value="pending" {% if request.GET.status == "pending" %}selected{% endif %}>Pending</option>
+            <option value="completed" {% if request.GET.status == "completed" %}selected{% endif %}>Completed</option>
+            <option value="cancelled" {% if request.GET.status == "cancelled" %}selected{% endif %}>Cancelled</option>
+        </select>
+    </div> -->
+
+  <!-- Date range filter -->
+  <!-- <div class="col-md-2">
+        <label>Start Date</label>
+        <input type="date" name="start" value="{{ request.GET.start }}" class="form-control">
+    </div>
+
+    <div class="col-md-2">
+        <label>End Date</label>
+        <input type="date" name="end" value="{{ request.GET.end }}" class="form-control">
+    </div>
+
+    <div class="col-md-2 align-self-end">
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </div> -->
+</form>
+
+{% if orders %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Order #</th>
+                <th>Status</th>
+                <th>Total</th>
+                <th>Date</th>
+                <th>Items</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.order_number }}</td>
+                <td>{{ order.get_status_display }}</td>
+                <td>${{ order.total_amount }}</td>
+                <td>{{ order.created_at|date:"Y-m-d H:i" }}</td>
+                <td>
+                    <ul>
+                        {% for item in order.items.all %}
+                            <li>{{ item.product.name }} × {{ item.quantity }} ({{ item.subtotal }})</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>You have not placed any orders yet.</p>
+{% endif %}
+
+{% endblock %}
