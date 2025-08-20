@@ -1,14 +1,28 @@
-# shop/api_urls.py
 from django.urls import path
-from .api_views import (
-    ProductBulkUploadView, ProductCreateView,
-    category_average_price_api, CreateOrderView,CategoryListAPIView
-)
+from . import api_views
 
 urlpatterns = [
-    path("products/", ProductCreateView.as_view(), name="api-product-create"),
-    path("products/bulk/", ProductBulkUploadView.as_view(), name="api-product-bulk"),
-    path("categories/<int:category_id>/average-price/", category_average_price_api, name="api-category-average-price"),
-    path("orders/", CreateOrderView.as_view(), name="api-create-order"),
-    path("categories/", CategoryListAPIView.as_view(), name="api-categories-list"),
+    # Categories
+    path("categories/", api_views.CategoryListCreateView.as_view(), name="category-list-create"),
+    path("categories/<int:pk>/", api_views.CategoryDetailView.as_view(), name="category-detail"),
+    path("categories/<int:pk>/avg-price/", api_views.CategoryAvgPriceView.as_view(), name="category-avg-price"),
+
+    # Products
+    path("products/", api_views.ProductListCreateView.as_view(), name="product-list-create"),
+    # path("products/", api_views.ProductListCreateView.as_view(), name="product-list"),  # GET (list w/ filters), POST (create)
+
+
+    # Customers
+    path("customers/", api_views.CustomerListCreateView.as_view(), name="customer-list-create"),
+    # Customers
+    # path("customers/", api_views.CustomerListCreateView.as_view(), name="customer-list"),  # GET (list w/ filters), POST (create)
+
+
+    # Users
+    path("users/", api_views.UserCreateView.as_view(), name="user-create"),
+
+    # Orders
+    path("orders/", api_views.OrderCreateView.as_view(), name="order-create"),
 ]
+
+

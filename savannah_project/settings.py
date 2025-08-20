@@ -25,12 +25,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ttzyesl6vdy_yr@15_p8!tv8(q457!u164$15fe7sg(pdjxa1s'
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "dev-insecure")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "0") == "1"
 
 ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
+
 
 
 # Application definition
@@ -46,6 +48,7 @@ INSTALLED_APPS = [
     'mptt',
     'mozilla_django_oidc',
     'shop',
+    'django_extensions',
 ]
 
 # AUTHENTICATION_BACKENDS = (
@@ -59,6 +62,7 @@ AUTHENTICATION_BACKENDS = (
 )
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+     "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -107,6 +111,8 @@ DATABASES = {
     }
 }
 
+
+
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
@@ -142,6 +148,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+# STATIC_ROOT = BASE_DIR / "staticfiles"  # collectstatic target
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles") 
+# MEDIA_URL = "/media/"
+# MEDIA_ROOT = BASE_DIR / "media"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -153,8 +163,8 @@ LOGOUT_URL = "/logout/"
 LOGIN_REDIRECT_URL = "/home/"   # where users go after login
 LOGOUT_REDIRECT_URL = "/home/" # where users go after logout
 
-OIDC_RP_CLIENT_ID = "185498356720-omrd4e7orrsnif6b4u00157bufjarp54.apps.googleusercontent.com"
-OIDC_RP_CLIENT_SECRET = "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"
+OIDC_RP_CLIENT_ID = os.getenv('OIDC_RP_CLIENT_ID')  
+OIDC_RP_CLIENT_SECRET = os.getenv('OIDC_RP_CLIENT_SECRET')  
 OIDC_OP_AUTHORIZATION_ENDPOINT = "https://accounts.google.com/o/oauth2/v2/auth"
 OIDC_OP_TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token"
 OIDC_OP_USER_ENDPOINT = "https://openidconnect.googleapis.com/v1/userinfo"
@@ -163,3 +173,34 @@ OIDC_RP_SIGN_ALGO = "RS256"
 LOGIN_REDIRECT_URL = "/shop/collect-phone/"   # after login
 LOGOUT_REDIRECT_URL = "/shop/"           # after logout
 OIDC_RP_SCOPES = 'openid profile email'
+
+
+
+# Email backend
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# SMTP server details
+EMAIL_HOST = 'mail.privateemail.com'       # Your email provider's SMTP server
+EMAIL_PORT = 587                     # TLS port
+EMAIL_USE_TLS = True                 # Use TLS
+EMAIL_USE_SSL = False                # Do NOT enable SSL when using TLS
+
+# Authentication credentials
+EMAIL_HOST_USER =os.getenv('EMAIL_HOST_USER')    # Your email address
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')    # Your email password or app password
+
+# Default "from" address for sending emails
+# DEFAULT_FROM_EMAIL = 'Info <no-reply@austino.online>'
+TEXT_SANDBOX= os.getenv('SANDBOX', True)
+
+if(TEXT_SANDBOX):
+    AFRICASTALKING_USERNAME=os.getenv('AFRICASTALKING_USERNAME_SANDBOX', 'sandbox')
+    AFRICASTALKING_API_KEY = os.getenv('AFRICASTALKING_API_KEY_SANDBOX')
+else:
+    AFRICASTALKING_USERNAME=os.getenv('AFRICASTALKING_USERNAME', 'austino')
+    AFRICASTALKING_API_KEY = os.getenv('AFRICASTALKING_API_KEY')
+
+
+
+print(DATABASES)
+print(EMAIL_HOST_USER,EMAIL_HOST_PASSWORD)

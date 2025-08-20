@@ -1,0 +1,77 @@
+<module 'africastalking' from '/home/austo/coding/savannah_project/venv/lib/python3.12/site-packages/africastalking/__init__.py'>
+/admin/	django.contrib.admin.sites.index	admin:index
+/admin/<app_label>/	django.contrib.admin.sites.app_index	admin:app_list
+/admin/<url>	django.contrib.admin.sites.catch_all_view
+/admin/auth/group/	django.contrib.admin.options.changelist_view	admin:auth_group_changelist
+/admin/auth/group/<path:object_id>/	django.views.generic.base.RedirectView
+/admin/auth/group/<path:object_id>/change/	django.contrib.admin.options.change_view	admin:auth_group_change
+/admin/auth/group/<path:object_id>/delete/	django.contrib.admin.options.delete_view	admin:auth_group_delete
+/admin/auth/group/<path:object_id>/history/	django.contrib.admin.options.history_view	admin:auth_group_history
+/admin/auth/group/add/	django.contrib.admin.options.add_view	admin:auth_group_add
+/admin/auth/user/	django.contrib.admin.options.changelist_view	admin:auth_user_changelist
+/admin/auth/user/<id>/password/	django.contrib.auth.admin.user_change_password	admin:auth_user_password_change
+/admin/auth/user/<path:object_id>/	django.views.generic.base.RedirectView
+/admin/auth/user/<path:object_id>/change/	django.contrib.admin.options.change_view	admin:auth_user_change
+/admin/auth/user/<path:object_id>/delete/	django.contrib.admin.options.delete_view	admin:auth_user_delete
+/admin/auth/user/<path:object_id>/history/	django.contrib.admin.options.history_view	admin:auth_user_history
+/admin/auth/user/add/	django.contrib.auth.admin.add_view	admin:auth_user_add
+/admin/autocomplete/	django.contrib.admin.sites.autocomplete_view	admin:autocomplete
+/admin/jsi18n/	django.contrib.admin.sites.i18n_javascript	admin:jsi18n
+/admin/login/	django.contrib.admin.sites.login	admin:login
+/admin/logout/	django.contrib.admin.sites.logout	admin:logout
+/admin/password_change/	django.contrib.admin.sites.password_change	admin:password_change
+/admin/password_change/done/	django.contrib.admin.sites.password_change_done	admin:password_change_done
+/admin/r/<path:content_type_id>/<path:object_id>/	django.contrib.contenttypes.views.shortcut	admin:view_on_site
+/admin/shop/category/	django.contrib.admin.options.changelist_view	admin:shop_category_changelist
+/admin/shop/category/<path:object_id>/	django.views.generic.base.RedirectView
+/admin/shop/category/<path:object_id>/change/	django.contrib.admin.options.change_view	admin:shop_category_change
+/admin/shop/category/<path:object_id>/delete/	django.contrib.admin.options.delete_view	admin:shop_category_delete
+/admin/shop/category/<path:object_id>/history/	django.contrib.admin.options.history_view	admin:shop_category_history
+/admin/shop/category/add/	django.contrib.admin.options.add_view	admin:shop_category_add
+/admin/shop/customer/	django.contrib.admin.options.changelist_view	admin:shop_customer_changelist
+/admin/shop/customer/<path:object_id>/	django.views.generic.base.RedirectView
+/admin/shop/customer/<path:object_id>/change/	django.contrib.admin.options.change_view	admin:shop_customer_change
+/admin/shop/customer/<path:object_id>/delete/	django.contrib.admin.options.delete_view	admin:shop_customer_delete
+/admin/shop/customer/<path:object_id>/history/	django.contrib.admin.options.history_view	admin:shop_customer_history
+/admin/shop/customer/add/	django.contrib.admin.options.add_view	admin:shop_customer_add
+/admin/shop/order/	django.contrib.admin.options.changelist_view	admin:shop_order_changelist
+/admin/shop/order/<path:object_id>/	django.views.generic.base.RedirectView
+/admin/shop/order/<path:object_id>/change/	django.contrib.admin.options.change_view	admin:shop_order_change
+/admin/shop/order/<path:object_id>/delete/	django.contrib.admin.options.delete_view	admin:shop_order_delete
+/admin/shop/order/<path:object_id>/history/	django.contrib.admin.options.history_view	admin:shop_order_history
+/admin/shop/order/add/	django.contrib.admin.options.add_view	admin:shop_order_add
+/admin/shop/product/	django.contrib.admin.options.changelist_view	admin:shop_product_changelist
+/admin/shop/product/<path:object_id>/	django.views.generic.base.RedirectView
+/admin/shop/product/<path:object_id>/change/	django.contrib.admin.options.change_view	admin:shop_product_change
+/admin/shop/product/<path:object_id>/delete/	django.contrib.admin.options.delete_view	admin:shop_product_delete
+/admin/shop/product/<path:object_id>/history/	django.contrib.admin.options.history_view	admin:shop_product_history
+/admin/shop/product/add/	django.contrib.admin.options.add_view	admin:shop_product_add
+/api/categories/	shop.api_views.CategoryListAPIView	api-categories-list
+/api/categories/<int:category_id>/average-price/	shop.api_views.category_average_price_api	api-category-average-price
+/api/orders/	shop.api_views.CreateOrderView	api-create-order
+/api/products/	shop.api_views.ProductCreateView	api-product-create
+/api/products/bulk/	shop.api_views.ProductBulkUploadView	api-product-bulk
+/logout/	django.contrib.auth.views.LogoutView	logout
+/oidc/authenticate/	mozilla_django_oidc.views.OIDCAuthenticationRequestView	oidc_authentication_init
+/oidc/callback/	mozilla_django_oidc.views.OIDCAuthenticationCallbackView	oidc_authentication_callback
+/oidc/logout/	mozilla_django_oidc.views.OIDCLogoutView	oidc_logout
+/shop/	shop.views.home_view	home
+/shop/buy/<int:product_id>/	shop.views.buy_product	buy-product
+/shop/categories/	shop.views.CategoryListCreateView	category-list
+/shop/categories/<int:category_id>/average-price/	shop.views.category_average_price	category-average-price
+/shop/categories/<int:pk>/	shop.views.CategoryDetailView	category-detail
+/shop/collect-phone/	shop.views.collect_phone	collect_phone
+/shop/customer/	shop.views.CustomerDetailView	customer-detail
+/shop/dashboard/	shop.views.dashboard_view	dashboard
+/shop/home/	shop.views.home_view	home
+/shop/login/	shop.views.login_view	login
+/shop/logout/	shop.views.logout_view	logout
+/shop/oidc/authenticate/	mozilla_django_oidc.views.OIDCAuthenticationRequestView	oidc_authentication_init
+/shop/oidc/callback/	mozilla_django_oidc.views.OIDCAuthenticationCallbackView	oidc_authentication_callback
+/shop/oidc/logout/	mozilla_django_oidc.views.OIDCLogoutView	oidc_logout
+/shop/orders/	shop.views.orders_view	orders
+/shop/orders/<int:pk>/	shop.views.OrderDetailView	order-detail
+/shop/orders/create/	shop.views.create_order	create-order
+/shop/products/	shop.views.products_view	product-list
+/shop/products/<int:product_id>/order/	shop.views.order_product	order_product
+/shop/set-usertype/	shop.views.set_usertype	set_usertype
