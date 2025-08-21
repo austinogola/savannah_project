@@ -7,4 +7,5 @@ psycopg2-binary
 africastalking
 django-extensions
 gunicorn
-whitenoise
+whitenoise,
+drf-yasg 
