@@ -225,3 +225,5 @@ coverage.xml
 
 # Windows
 Thumbs.db
+kubectl
+kubectl.sha256

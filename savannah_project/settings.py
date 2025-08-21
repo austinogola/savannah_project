@@ -165,6 +165,7 @@ LOGOUT_REDIRECT_URL = "/home/" # where users go after logout
 
 OIDC_RP_CLIENT_ID = os.getenv('OIDC_RP_CLIENT_ID')  
 OIDC_RP_CLIENT_SECRET = os.getenv('OIDC_RP_CLIENT_SECRET')  
+
 OIDC_OP_AUTHORIZATION_ENDPOINT = "https://accounts.google.com/o/oauth2/v2/auth"
 OIDC_OP_TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token"
 OIDC_OP_USER_ENDPOINT = "https://openidconnect.googleapis.com/v1/userinfo"
@@ -189,6 +190,7 @@ EMAIL_USE_SSL = False                # Do NOT enable SSL when using TLS
 EMAIL_HOST_USER =os.getenv('EMAIL_HOST_USER')    # Your email address
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')    # Your email password or app password
 
+
 # Default "from" address for sending emails
 # DEFAULT_FROM_EMAIL = 'Info <no-reply@austino.online>'
 TEXT_SANDBOX= os.getenv('SANDBOX', True)
@@ -202,5 +204,5 @@ else:
 
 
 
-print(DATABASES)
-print(EMAIL_HOST_USER,EMAIL_HOST_PASSWORD)
+# print(DATABASES)
+print(OIDC_RP_CLIENT_ID,OIDC_RP_CLIENT_SECRET)

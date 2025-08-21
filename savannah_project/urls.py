@@ -17,11 +17,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from django.contrib.auth import views as auth_views
+from django.shortcuts import redirect
+
+def redirect_to_shop_logout(request):
+    return redirect('shop:logout') 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
      path('shop/', include('shop.urls')),
     path('oidc/', include('mozilla_django_oidc.urls')),
-     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
+    #  path("logout/", auth_views.LogoutView.as_view(), name="logout"),
      path("api/", include("shop.api_urls")),
+    #  path("logout/", include("shop.urls")),
+    path("logout/", redirect_to_shop_logout, name="logout"),
 ]
