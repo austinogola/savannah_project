@@ -14,7 +14,7 @@ import json
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
 from .services import sendmail,sendText
-
+from django.views.generic import TemplateView
 
 def home_view(request):
     products = Product.objects.filter(is_active=True)[:10]
@@ -262,3 +262,8 @@ def set_usertype(request):
         request.session["usertype"] = data.get("usertype", "normal")
         return JsonResponse({"status": "ok"})
     return JsonResponse({"error": "Invalid method"}, status=400)
+
+
+
+class DocsView(TemplateView):
+    template_name = "docs.html"

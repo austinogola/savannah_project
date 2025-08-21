@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>API Documentation - Savannah</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <div class="max-w-5xl mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-6">Savannah API Documentation</h1>
+
+    <!-- Categories -->
+    <section class="mb-8">
+      <h2 class="text-xl font-semibold mb-2">Categories</h2>
+      <ul class="list-disc ml-6">
+        <li><strong>GET /api/categories/</strong> → List all categories</li>
+        <li><strong>POST /api/categories/</strong> → Create category</li>
+        <li><strong>GET /api/categories/{id}/</strong> → Retrieve category</li>
+        <li><strong>GET /api/categories/{id}/avg-price/</strong> → Get average product price</li>
+      </ul>
+    </section>
+
+    <!-- Products -->
+    <section class="mb-8">
+      <h2 class="text-xl font-semibold mb-2">Products</h2>
+      <ul class="list-disc ml-6">
+        <li><strong>GET /api/products/</strong> → List all products (filters: <code>category_id</code>, <code>category_name</code>)</li>
+        <li><strong>POST /api/products/</strong> → Create a new product</li>
+      </ul>
+    </section>
+
+    <!-- Customers -->
+    <section class="mb-8">
+      <h2 class="text-xl font-semibold mb-2">Customers</h2>
+      <ul class="list-disc ml-6">
+        <li><strong>GET /api/customers/</strong> → List customers (filters: <code>phone</code>, <code>user_id</code>)</li>
+        <li><strong>POST /api/customers/</strong> → Create a customer</li>
+      </ul>
+    </section>
+
+    <!-- Users -->
+    <section class="mb-8">
+      <h2 class="text-xl font-semibold mb-2">Users</h2>
+      <ul class="list-disc ml-6">
+        <li><strong>POST /api/users/</strong> → Create user (also auto-creates Customer)</li>
+        <pre class="bg-gray-900 text-gray-200 p-3 rounded mt-2">
+{
+  "username": "jdoe",
+  "password": "mypassword",
+  "first_name": "John",
+  "last_name": "Doe",
+  "phone": "+123456789"
+}
+        </pre>
+      </ul>
+    </section>
+
+    <!-- Orders -->
+    <section class="mb-8">
+      <h2 class="text-xl font-semibold mb-2">Orders</h2>
+      <ul class="list-disc ml-6">
+        <li><strong>POST /api/orders/</strong> → Create order</li>
+        <pre class="bg-gray-900 text-gray-200 p-3 rounded mt-2">
+{
+  "customer_id": 1,
+  "items": [
+    {"product_id": 2, "quantity": 3},
+    {"product_id": 5, "quantity": 1}
+  ]
+}
+        </pre>
+      </ul>
+    </section>
+
+  </div>
+</body>
+</html>

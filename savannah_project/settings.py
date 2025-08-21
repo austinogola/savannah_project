@@ -32,7 +32,12 @@ DEBUG = os.getenv("DEBUG", "0") == "1"
 
 # ALLOWED_HOSTS = []
 # ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
-ALLOWED_HOSTS = ["savannah.austino.online", "www.savannah.austino.online","http://127.0.0.1:8000"]
+ALLOWED_HOSTS = [
+    "savannah.austino.online",
+    "www.savannah.austino.online",
+    "127.0.0.1",   # without http:// and port
+    "localhost"
+]
 
 
 
@@ -219,4 +224,4 @@ else:
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-CSRF_TRUSTED_ORIGINS = ['https://savannah.austino.online']
+CSRF_TRUSTED_ORIGINS = ['https://savannah.austino.online','http://127.0.0.1:8000']

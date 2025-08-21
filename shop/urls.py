@@ -28,4 +28,6 @@ urlpatterns = [
     # Misc
     path("set_usertype/", views.set_usertype, name="set_usertype"),
 
+    path("docs/", views.DocsView.as_view(), name="api-docs"),
+
 ]
