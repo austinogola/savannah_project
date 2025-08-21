@@ -1,5 +1,6 @@
 from django.urls import path, include
 from . import views
+from django.views.generic import TemplateView
 
 urlpatterns = [
     # Public pages
@@ -29,5 +30,6 @@ urlpatterns = [
     path("set_usertype/", views.set_usertype, name="set_usertype"),
 
     path("docs/", views.DocsView.as_view(), name="api-docs"),
+     path("guide/", TemplateView.as_view(template_name="guide.html"), name="guide"),
 
 ]

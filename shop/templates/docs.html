@@ -2,76 +2,186 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>API Documentation - Savannah</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <title>API Documentation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f9f9f9;
+    }
+    h1,h2 {
+      text-align: center;
+    }
+    .accordion {
+      background-color: #eee;
+      color: #444;
+      cursor: pointer;
+      padding: 14px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 16px;
+      transition: 0.3s;
+      margin-top: 8px;
+      border-radius: 5px;
+    }
+    .active, .accordion:hover {
+      background-color: #ccc;
+    }
+    .panel {
+      padding: 0 16px;
+      display: none;
+      background-color: white;
+      overflow: hidden;
+      border-left: 2px solid #ccc;
+      border-right: 2px solid #ccc;
+      border-bottom: 2px solid #ccc;
+    }
+    .endpoint {
+      margin: 12px 0;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background: #fafafa;
+    }
+    .method {
+      font-weight: bold;
+      padding: 4px 8px;
+      border-radius: 4px;
+      color: white;
+    }
+    .GET { background-color: #4caf50; }
+    .POST { background-color: #2196f3; }
+    .PUT { background-color: #ff9800; }
+    .DELETE { background-color: #f44336; }
+    .params {
+      margin-top: 8px;
+      padding: 8px;
+      background: #f4f4f4;
+      border-radius: 5px;
+      font-family: monospace;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
-  <div class="max-w-5xl mx-auto p-6">
-    <h1 class="text-3xl font-bold mb-6">Savannah API Documentation</h1>
+<body>
+  <h1>API Documentation</h1>
+  <h2>BASE_URL - https://savannah.austino.online</h2>
 
-    <!-- Categories -->
-    <section class="mb-8">
-      <h2 class="text-xl font-semibold mb-2">Categories</h2>
-      <ul class="list-disc ml-6">
-        <li><strong>GET /api/categories/</strong> → List all categories</li>
-        <li><strong>POST /api/categories/</strong> → Create category</li>
-        <li><strong>GET /api/categories/{id}/</strong> → Retrieve category</li>
-        <li><strong>GET /api/categories/{id}/avg-price/</strong> → Get average product price</li>
-      </ul>
-    </section>
-
-    <!-- Products -->
-    <section class="mb-8">
-      <h2 class="text-xl font-semibold mb-2">Products</h2>
-      <ul class="list-disc ml-6">
-        <li><strong>GET /api/products/</strong> → List all products (filters: <code>category_id</code>, <code>category_name</code>)</li>
-        <li><strong>POST /api/products/</strong> → Create a new product</li>
-      </ul>
-    </section>
-
-    <!-- Customers -->
-    <section class="mb-8">
-      <h2 class="text-xl font-semibold mb-2">Customers</h2>
-      <ul class="list-disc ml-6">
-        <li><strong>GET /api/customers/</strong> → List customers (filters: <code>phone</code>, <code>user_id</code>)</li>
-        <li><strong>POST /api/customers/</strong> → Create a customer</li>
-      </ul>
-    </section>
-
-    <!-- Users -->
-    <section class="mb-8">
-      <h2 class="text-xl font-semibold mb-2">Users</h2>
-      <ul class="list-disc ml-6">
-        <li><strong>POST /api/users/</strong> → Create user (also auto-creates Customer)</li>
-        <pre class="bg-gray-900 text-gray-200 p-3 rounded mt-2">
-{
-  "username": "jdoe",
-  "password": "mypassword",
-  "first_name": "John",
-  "last_name": "Doe",
-  "phone": "+123456789"
-}
-        </pre>
-      </ul>
-    </section>
-
-    <!-- Orders -->
-    <section class="mb-8">
-      <h2 class="text-xl font-semibold mb-2">Orders</h2>
-      <ul class="list-disc ml-6">
-        <li><strong>POST /api/orders/</strong> → Create order</li>
-        <pre class="bg-gray-900 text-gray-200 p-3 rounded mt-2">
-{
-  "customer_id": 1,
-  "items": [
-    {"product_id": 2, "quantity": 3},
-    {"product_id": 5, "quantity": 1}
-  ]
-}
-        </pre>
-      </ul>
-    </section>
-
+  <!-- Categories -->
+  <button class="accordion">Categories</button>
+  <div class="panel">
+    <div class="endpoint">
+      <span class="method GET">GET</span> {BASE_URL}/api/categories/  
+      <p>Fetch all categories.</p>
+    </div>
+    <div class="endpoint">
+      <span class="method GET">GET</span> {BASE_URL}/api/categories/{id}/  
+      <p>Fetch details of a category by ID.</p>
+    </div>
+    <div class="endpoint">
+      <span class="method POST">POST</span> {BASE_URL}/api/categories/  
+      <p>Create a new category.</p>
+      <div class="params">
+        <strong>Body Parameters:</strong><br>
+        {<br>
+        &nbsp;&nbsp;"name": "string" (required),<br>
+        &nbsp;&nbsp;"description": "string" (optional)<br>
+        &nbsp;&nbsp;"parent": "string" (optional) - name of the parent category it belongs to<br>
+        }
+      </div>
+    </div>
   </div>
+
+  <!-- Products -->
+  <button class="accordion">Products</button>
+  <div class="panel">
+    <div class="endpoint">
+      <span class="method GET">GET</span> {BASE_URL}/api/products/  
+      <p>Fetch all products.</p>
+    </div>
+    <!-- <div class="endpoint">
+      <span class="method GET">GET</span> {BASE_URL}/api/products/{id}/  
+      <p>Fetch details of a product by ID.</p>
+    </div> -->
+    <div class="endpoint">
+      <span class="method POST">POST</span> {BASE_URL}/api/products/  
+      <p>Create a new product. (One of category_id or category_name required)</p>
+      <div class="params">
+        <strong>Body Parameters:</strong><br>
+        {<br>
+        &nbsp;&nbsp;"name": "string" (required),<br>
+        &nbsp;&nbsp;"price": "decimal" (required),<br>
+        &nbsp;&nbsp;"category_id": "int" (optional),<br>
+       &nbsp;&nbsp;"category_name": "string" (optional),<br>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Orders -->
+  <button class="accordion">Orders</button>
+  <div class="panel">
+    <!-- <div class="endpoint">
+      <span class="method GET">GET</span> {BASE_URL}/api/orders/  
+      <p>Fetch all orders.</p>
+    </div>
+    <div class="endpoint">
+      <span class="method GET">GET</span> {BASE_URL}/api/orders/{id}/  
+      <p>Fetch order details by ID.</p>
+    </div> -->
+    <div class="endpoint">
+      <span class="method POST">POST</span> {BASE_URL}/api/orders/  
+      <p>Create a new order.</p>
+      <div class="params">
+        <strong>Body Parameters:</strong><br>
+        {<br>
+        &nbsp;&nbsp;"customer_id": "int" (required),<br>
+        &nbsp;&nbsp;"items": [<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;{"product_id": int, "quantity": int},<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;...<br>
+        &nbsp;&nbsp;],<br>
+    
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Customers -->
+  <button class="accordion">Customers</button>
+  <div class="panel">
+    <div class="endpoint">
+      <span class="method GET">GET</span> {BASE_URL}/api/customers/  
+      <p>Fetch all customers.</p>
+    </div>
+    <!-- <div class="endpoint">
+      <span class="method GET">GET</span> {BASE_URL}/api/customers/{id}/  
+      <p>Fetch customer details by ID.</p>
+    </div> -->
+    <!-- <div class="endpoint">
+      <span class="method POST">POST</span> {BASE_URL}/api/customers/  
+      <p>Create a new customer.</p>
+      <div class="params">
+        <strong>Body Parameters:</strong><br>
+        {<br>
+        &nbsp;&nbsp;"username": "string" (required),<br>
+        &nbsp;&nbsp;"email": "string" (required),<br>
+        &nbsp;&nbsp;"password": "string" (required),<br>
+        &nbsp;&nbsp;"phone": "string" (optional)<br>
+        }
+      </div>
+    </div> -->
+  </div>
+
+  <script>
+    const acc = document.getElementsByClassName("accordion");
+    for (let i = 0; i < acc.length; i++) {
+      acc[i].addEventListener("click", function () {
+        this.classList.toggle("active");
+        let panel = this.nextElementSibling;
+        panel.style.display = (panel.style.display === "block") ? "none" : "block";
+      });
+    }
+  </script>
 </body>
 </html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guide - API & Usage</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      background: #f9f9f9;
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+    h1, h2 {
+      color: #2c3e50;
+    }
+    h1 {
+      text-align: center;
+    }
+    .section {
+      background: #fff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    ol, ul {
+      margin-left: 20px;
+    }
+    code {
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Application Guide</h1>
+
+  <div class="section">
+    <h2>Creating a User</h2>
+    <ol>
+      <li>Making an order requires a <strong>customer ID</strong>.</li>
+      <li>To create a new customer, you can use the 
+        <a href="https://savannah.austino.online/shop/login/" target="_blank"  style="text-decoration:underline;">webapp to login via <strong>OpenID</strong> first</a>.</li>
+      <li>On sign-in, the user can choose to be <em>admin</em> or <em>normal</em>.</li>
+      <li>If a user switches to <em>admin</em>, they will be prompted to enter the password: <code>abcdef</code>.</li>
+      <li>On first sign-in, the user will also be prompted to add a <strong>phone number</strong>.</li>
+      <li>All <em>admin users</em> with valid emails are notified via email when an order is made.</li>
+      <li>One can view all users via the 
+        <a href="https://savannah.austino.online/shop/docs/" target="_blank"  style="text-decoration:underline;"><strong>REST API</strong>.</li></a>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2>API Endpoints</h2>
+    <h4><a href="https://savannah.austino.online/shop/docs/" target="_blank"  style="text-decoration:underline;">Full REST API Documentation</a></h4>
+    <ul>
+      <li><code>/api/customers/</code> – List all customers</li>
+      <li><code>/api/categories/</code> – Create/List categories</li>
+      <!-- <li><code>/api/users/&lt;id&gt;/</code> – Retrieve a specific user</li> -->
+      <li><code>/api/orders/</code> – Create orders</li>
+      <!-- <li><code>/api/orders/&lt;id&gt;/</code> – Retrieve/update/delete an order</li> -->
+      <li><code>/api/products/</code> – Creatr/List all products</li>
+      <!-- <li><code>/api/products/&lt;id&gt;/</code> – Retrieve a specific product</li> -->
+      <!-- You can add more as you send me your views/serializers -->
+    </ul>
+  </div>
+</body>
+</html>
