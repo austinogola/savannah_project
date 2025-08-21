@@ -15,9 +15,23 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path,include,re_path
 from django.contrib.auth import views as auth_views
 from django.shortcuts import redirect
+
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title="My API",
+      default_version='v1',
+      description="Detailed API documentation for all endpoints",
+   ),
+   public=True,
+   permission_classes=[permissions.AllowAny],
+)
 
 def redirect_to_shop_logout(request):
     return redirect('shop:logout') 
@@ -30,4 +44,8 @@ urlpatterns = [
      path("api/", include("shop.api_urls")),
     #  path("logout/", include("shop.urls")),
     path("logout/", redirect_to_shop_logout, name="logout"),
+     re_path(r'^docs(?P<format>\.json|\.yaml)$',
+            schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]

@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'mozilla_django_oidc',
     'shop',
     'django_extensions',
+    'drf_yasg',
 ]
 
 # AUTHENTICATION_BACKENDS = (
@@ -70,6 +71,17 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        # You can also add token/JWT auth if you use them
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ]
+}
 
 ROOT_URLCONF = 'savannah_project.urls'
 
