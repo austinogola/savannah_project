@@ -82,7 +82,9 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ]
 }
-
+SWAGGER_SETTINGS = {
+    "DEFAULT_API_URL": "https://savannah.austino.online",
+}
 ROOT_URLCONF = 'savannah_project.urls'
 
 TEMPLATES = [

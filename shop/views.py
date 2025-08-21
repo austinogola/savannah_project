@@ -18,6 +18,7 @@ from .services import sendmail,sendText
 
 def home_view(request):
     products = Product.objects.filter(is_active=True)[:10]
+    print(products)
     return render(request, "home.html", {"products": products})
 
 
