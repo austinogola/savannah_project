@@ -30,8 +30,9 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "dev-insecure")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "0") == "1"
 
-ALLOWED_HOSTS = []
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
+# ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
+ALLOWED_HOSTS = ["savannah.austino.online", "www.savannah.austino.online","http://127.0.0.1:8000"]
 
 
 
