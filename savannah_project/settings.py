@@ -37,7 +37,8 @@ ALLOWED_HOSTS = [
     "www.savannah.austino.online",
     "127.0.0.1",   # without http:// and port
     "localhost",
-    "savannahproject-production.up.railway.app"
+    "savannahproject-production.up.railway.app",
+     "www.savannahproject-production.up.railway.app"
 ]
 
 
