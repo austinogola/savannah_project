@@ -21,4 +21,5 @@ RUN python manage.py collectstatic --noinput
 ENV DJANGO_DEBUG=False
 
 EXPOSE 8000
-CMD ["gunicorn", "savannah_project.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "2", "--timeout", "60"]
+CMD ["gunicorn", "savannah_project.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "2", "--timeout", "60", "--capture-output", "--log-level", "debug"]
+
