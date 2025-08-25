@@ -46,4 +46,5 @@ def sendText(phone_number,message):
         return f"Failed-{recepients['status']}"
     except Exception as e:
         print("Failed to send SMS:", e)
-        return(f"Failed-{str(e)}")
+        # return(f"Failed-{str(e)}")
+        return(f"Failed to send SMS to client")
