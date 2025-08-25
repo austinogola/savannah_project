@@ -12,7 +12,7 @@ class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields = ['id', 'username', 'email', 'first_name', 'last_name', 
-                 'phone', 'date_of_birth', 'created_at']
+                 'phone', 'created_at']
 
 
 class CategorySerializer(serializers.ModelSerializer):

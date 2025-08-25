@@ -9,3 +9,4 @@ django-extensions
 gunicorn
 whitenoise
 drf-yasg 
+pytest

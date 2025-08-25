@@ -22,6 +22,7 @@ from django.shortcuts import redirect
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from django.views.generic import RedirectView
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -38,14 +39,27 @@ def redirect_to_shop_logout(request):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+     # root (/) → /shop/
+    path("", RedirectView.as_view(url="/shop/", permanent=False)),
+
+    # /home → /shop/
+    path("home/", RedirectView.as_view(url="/shop/", permanent=False)),
+    # /login → /shop/login
+    path("login/", RedirectView.as_view(url="/shop/login/", permanent=False)),
+
+
      path('shop/', include('shop.urls')),
     path('oidc/', include('mozilla_django_oidc.urls')),
-    #  path("logout/", auth_views.LogoutView.as_view(), name="logout"),
+    
      path("api/", include("shop.api_urls")),
     #  path("logout/", include("shop.urls")),
     path("logout/", redirect_to_shop_logout, name="logout"),
      re_path(r'^docs(?P<format>\.json|\.yaml)$',
             schema_view.without_ui(cache_timeout=0), name='schema-json'),
-    path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+
+
+            #  path("logout/", auth_views.LogoutView.as_view(), name="logout"),
+    # path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    # path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]

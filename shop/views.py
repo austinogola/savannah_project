@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import logout
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 import json
 from decimal import Decimal
@@ -20,34 +20,6 @@ def home_view(request):
     products = Product.objects.filter(is_active=True)[:10]
     print(products)
     return render(request, "home.html", {"products": products})
-
-
-# def products_view(request):
-#     products = Product.objects.filter(is_active=True)
-#     categories = Category.objects.all()
-
-#     category_id = request.GET.get("category")
-#     min_price = request.GET.get("min_price")
-#     max_price = request.GET.get("max_price")
-
-#     if category_id:
-#         category = get_object_or_404(Category, id=category_id)
-#         category_ids = category.get_descendants(include_self=True).values_list("id", flat=True)
-#         products = products.filter(category_id__in=category_ids)
-
-#     if min_price:
-#         try:
-#             products = products.filter(price__gte=Decimal(min_price))
-#         except:
-#             pass
-
-#     if max_price:
-#         try:
-#             products = products.filter(price__lte=Decimal(max_price))
-#         except:
-#             pass
-
-#     return render(request, "products.html", {"products": products, "categories": categories})
 
 def products_view(request):
     products = Product.objects.filter(is_active=True)
@@ -81,17 +53,7 @@ def products_view(request):
         "categories": categories,
     }
     return render(request, "products.html", context)
-    
-# @login_required
-# def dashboard_view(request):
-#     customer, _ = Customer.objects.get_or_create(user=request.user)
-#     recent_orders = Order.objects.filter(customer=customer).order_by("-created_at")[:5]
-#     products = Product.objects.filter(is_active=True)[:5]
 
-#     return render(request, "dashboard.html", {
-#         "recent_orders": recent_orders,
-#         "products": products,
-#     })
 
 
 @login_required
@@ -111,21 +73,6 @@ def dashboard_view(request):
         "products": products
     }
     return render(request, "dashboard.html", {"context": context})
-
-
-@login_required
-def buy_product(request, product_id):
-    if request.method == "POST":
-        product = get_object_or_404(Product, id=product_id, is_active=True)
-        customer, _ = Customer.objects.get_or_create(user=request.user)
-
-        order = Order.objects.create(customer=customer, total_amount=product.price)
-        OrderItem.objects.create(order=order, product=product, quantity=1, unit_price=product.price)
-
-        messages.success(request, f"{product.name} added to your order!")
-        return redirect("home")
-
-    return redirect("home")
 
 
 def send_confirmation_messages(customer,user,order,product,quantity):
@@ -167,14 +114,31 @@ def send_confirmation_messages(customer,user,order,product,quantity):
 
 @login_required
 def order_product(request, product_id):
+    # 1. Ensure product exists and is active
     product = get_object_or_404(Product, id=product_id, is_active=True)
 
-    if request.method == "POST":
-        quantity = int(request.POST.get("quantity", 1))
-        user=request.user
-        customer = request.user.customer  # from your Customer model
+    # 2. Ensure user exists (covered by @login_required, but still safe-check)
+    user = request.user
+    if not user or not user.is_authenticated:
+        return HttpResponseForbidden("You must be logged in to order a product.")
 
-        # create new order
+    # 3. Ensure customer profile exists
+    try:
+        customer = user.customer
+    except Customer.DoesNotExist:
+        return HttpResponseBadRequest("Customer profile is missing. Please create one before ordering.")
+
+    # 4. Handle only POST requests
+    if request.method == "POST":
+        try:
+            quantity = int(request.POST.get("quantity", 1))
+        except ValueError:
+            return HttpResponseBadRequest("Invalid quantity provided.")
+
+        if quantity <= 0:
+            return HttpResponseBadRequest("Quantity must be at least 1.")
+
+        # Create order + order item
         order = Order.objects.create(customer=customer)
         OrderItem.objects.create(
             order=order,
@@ -183,14 +147,18 @@ def order_product(request, product_id):
             unit_price=product.price,
         )
         order.calculate_total()
+
         messages.success(request, f"{product.name} added to your order!")
 
-        messages_results =send_confirmation_messages(customer=customer,user=user,order=order,product=product,quantity=quantity)
-        print('messages_results',messages_results)
-        
+        # Send confirmation messages
+        messages_results = send_confirmation_messages(
+            customer=customer, user=user, order=order, product=product, quantity=quantity
+        )
+        print("messages_results", messages_results)
 
-        return redirect("orders")  # redirect to orders page
+        return redirect("orders")
 
+    # If not POST → redirect
     return redirect("products")
 
 

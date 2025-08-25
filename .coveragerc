@@ -1,5 +1,27 @@
 [run]
+# Tell coverage.py where to look
+source = .
+branch = True
+
+# Exclude boilerplate files that don’t need coverage
 omit =
     */migrations/*
     */tests/*
-    */__init__.py
+    */wsgi.py
+    */asgi.py
+    */manage.py
+    */settings.py
+
+[report]
+# Don’t complain about empty init files
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    if self\.debug
+    if settings\.DEBUG
+    if __name__ == .__main__.:
+    @abstractmethod
+
+# Show missing lines in the report
+show_missing = True
+skip_covered = True
